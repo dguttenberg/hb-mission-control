@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamilton Beach — Mission Control</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Top Nav Bar ── */
+  .top-bar {
+    background: #2d2d2d;
+    padding: 0 32px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .top-bar-brand {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .top-bar-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #a0a0a0;
+  }
+
+  .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: default;
+    letter-spacing: 0.01em;
+  }
+
+  .pill-orange {
+    background: #e8a838;
+    color: #fff;
+  }
+
+  .pill-green {
+    background: #3a7d44;
+    color: #fff;
+  }
+
+  /* ── Main Layout ── */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── Hero / Title Area ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    color: #666;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ── Section Labels (matches "BRAND CENTER", "INPUT", etc.) ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  /* ── Nucleus Card ── */
+  .nucleus-section {
+    margin-bottom: 40px;
+  }
+
+  .nucleus-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #ffffff;
+    border: 1px solid #e0e0d8;
+    border-radius: 10px;
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+
+  .nucleus-card:hover {
+    border-color: #c0c0b8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .nucleus-icon {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    background: #f0f7f1;
+    border: 1px solid #d4e8d6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nucleus-icon svg {
+    width: 30px;
+    height: 30px;
+    color: #3a7d44;
+  }
+
+  .nucleus-body {
+    flex: 1;
+  }
+
+  .nucleus-body h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .nucleus-body p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .nucleus-url {
+    font-size: 12px;
+    color: #3a7d44;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nucleus-url svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nucleus-arrow {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: #f0f7f1;
+    border: 1px solid #d4e8d6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  .nucleus-card:hover .nucleus-arrow {
+    background: #e0f0e2;
+  }
+
+  .nucleus-arrow svg {
+    width: 16px;
+    height: 16px;
+    color: #3a7d44;
+  }
+
+  /* ── Satellites Grid ── */
+  .satellites-section {
+    margin-bottom: 48px;
+  }
+
+  .satellites-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .satellites-grid { grid-template-columns: 1fr; }
+    .nucleus-card { flex-direction: column; text-align: center; }
+    .nucleus-arrow { display: none; }
+    .main { padding: 32px 16px 60px; }
+  }
+
+  .sat-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e0e0d8;
+    border-radius: 10px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .sat-card:hover {
+    border-color: #c0c0b8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .sat-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .sat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sat-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .sat-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: #f5f5f0;
+  }
+
+  .sat-card:hover .sat-arrow {
+    opacity: 1;
+  }
+
+  .sat-arrow svg {
+    width: 14px;
+    height: 14px;
+    color: #999;
+  }
+
+  .sat-body h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .sat-body p {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .sat-url {
+    font-size: 11px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  /* ── Satellite icon colors ── */
+  .sat-reddit .sat-icon {
+    background: #fff4f0;
+    border: 1px solid #fdddd3;
+  }
+  .sat-reddit .sat-icon svg { color: #d4542a; }
+  .sat-reddit .sat-url { color: #d4542a; }
+
+  .sat-copywriter .sat-icon {
+    background: #f0f4ff;
+    border: 1px solid #d3ddf8;
+  }
+  .sat-copywriter .sat-icon svg { color: #4a6fa5; }
+  .sat-copywriter .sat-url { color: #4a6fa5; }
+
+  .sat-brief .sat-icon {
+    background: #f8f0ff;
+    border: 1px solid #e4d3f8;
+  }
+  .sat-brief .sat-icon svg { color: #7b5ea7; }
+  .sat-brief .sat-url { color: #7b5ea7; }
+
+  .sat-strategy .sat-icon {
+    background: #f0f7f1;
+    border: 1px solid #d4e8d6;
+  }
+  .sat-strategy .sat-icon svg { color: #3a7d44; }
+  .sat-strategy .sat-url { color: #3a7d44; }
+
+  /* ── Success Banner (matches the green info bars) ── */
+  .info-banner {
+    background: #edf7ee;
+    border: 1px solid #d4e8d6;
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .info-banner svg {
+    width: 18px;
+    height: 18px;
+    color: #3a7d44;
+    flex-shrink: 0;
+  }
+
+  .info-banner span {
+    font-size: 13px;
+    color: #3a7d44;
+    font-weight: 500;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid #e0e0d8;
+  }
+
+  .footer p {
+    font-size: 12px;
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  .footer span {
+    font-weight: 600;
+    color: #777;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Top Navigation Bar ── -->
+<nav class="top-bar">
+  <div class="top-bar-left">
+    <span class="top-bar-brand">Hamilton Beach</span>
+    <span class="top-bar-label">Mission Control</span>
+  </div>
+  <div class="top-bar-right">
+    <span class="pill pill-orange">Yes You Can Chef</span>
+    <span class="pill pill-green">Built For This</span>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <h1>Gravity Tool Suite</h1>
+    <p>The AI-powered ecosystem for Hamilton Beach creative and strategy operations.</p>
+  </div>
+
+  <!-- ── Status Banner ── -->
+  <div class="info-banner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span>5 tools online — Nucleus + 4 satellites active</span>
+  </div>
+
+  <!-- ── Nucleus ── -->
+  <section class="nucleus-section">
+    <div class="section-label">NUCLEUS</div>
+    <a href="https://hamilton-beach-nucleus.vercel.app" target="_blank" rel="noopener" class="nucleus-card">
+      <div class="nucleus-icon">
+        <!-- Atom icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+        </svg>
+      </div>
+      <div class="nucleus-body">
+        <h2>Brand Nucleus</h2>
+        <p>Central intelligence hub — brand strategy, product knowledge, and the core engine that powers every satellite tool.</p>
+        <div class="nucleus-url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          hamilton-beach-nucleus.vercel.app
+        </div>
+      </div>
+      <div class="nucleus-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+    </a>
+  </section>
+
+  <!-- ── Satellites ── -->
+  <section class="satellites-section">
+    <div class="section-label">SATELLITES</div>
+    <div class="satellites-grid">
+
+      <!-- Reddit Writer -->
+      <a href="https://hb-reddit-satellite.vercel.app" target="_blank" rel="noopener" class="sat-card sat-reddit">
+        <div class="sat-top">
+          <div class="sat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </div>
+          <div class="sat-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </div>
+        </div>
+        <div class="sat-body">
+          <h3>Reddit Writer</h3>
+          <p>Generate authentic, community-native Reddit posts and comments tuned to Hamilton Beach audiences.</p>
+          <div class="sat-url">hb-reddit-satellite.vercel.app</div>
+        </div>
+      </a>
+
+      <!-- Social Ad Copywriter -->
+      <a href="https://hb-copywriter.vercel.app" target="_blank" rel="noopener" class="sat-card sat-copywriter">
+        <div class="sat-top">
+          <div class="sat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <div class="sat-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </div>
+        </div>
+        <div class="sat-body">
+          <h3>Social Ad Copywriter</h3>
+          <p>Craft high-converting social ad copy across platforms — from headlines to CTAs — aligned to brand voice.</p>
+          <div class="sat-url">hb-copywriter.vercel.app</div>
+        </div>
+      </a>
+
+      <!-- Creative Brief Writer -->
+      <a href="https://hb-creative-pov-satellite.vercel.app" target="_blank" rel="noopener" class="sat-card sat-brief">
+        <div class="sat-top">
+          <div class="sat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18h6"/>
+              <path d="M10 22h4"/>
+              <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+            </svg>
+          </div>
+          <div class="sat-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </div>
+        </div>
+        <div class="sat-body">
+          <h3>Creative Brief Writer</h3>
+          <p>Build structured creative briefs and POVs grounded in strategy, audience insight, and brand positioning.</p>
+          <div class="sat-url">hb-creative-pov-satellite.vercel.app</div>
+        </div>
+      </a>
+
+      <!-- Strategy Nucleus Review -->
+      <a href="https://hb-strategy-review.vercel.app" target="_blank" rel="noopener" class="sat-card sat-strategy">
+        <div class="sat-top">
+          <div class="sat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <div class="sat-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </div>
+        </div>
+        <div class="sat-body">
+          <h3>Strategy Nucleus Review</h3>
+          <p>Evaluate and score creative work against brand strategy, ensuring every output is on-brief and on-brand.</p>
+          <div class="sat-url">hb-strategy-review.vercel.app</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p>Built by <span>Doner &times; Gravity</span> &mdash; Powered by AI</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
